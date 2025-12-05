@@ -31,6 +31,9 @@ def signin(request):
         password = request.POST["password"]
         next_url = request.POST["next"]
 
+        if not next_url or next_url == "None":
+            next_url = "homepage"
+
         user = auth.authenticate(email=email, password=password)
 
         if user is not None:
