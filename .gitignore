@@ -1,0 +1,49 @@
+# --- Python Basics ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.log
+
+# --- Virtual Environments (Very Important) ---
+# Never commit your libraries!
+venv/
+env/
+.venv/
+.env
+
+# --- PyCharm / IDE Settings ---
+# These are your personal window layouts/settings.
+# Your team doesn't need them.
+.idea/
+*.iml
+.vscode/
+
+# --- Django Specifics ---
+# Your local database (binary file)
+db.sqlite3
+db.sqlite3-journal
+
+# Static/Media files (User uploads don't go to Git)
+media/
+staticfiles/
+
+# Local configuration with secrets (if you use one)
+local_settings.py
+
+# --- Machine Learning / Data Science ---
+# WARNING: Trained models are often too large for GitHub (limit is 100MB).
+# Keep these local or use Git LFS.
+*.pkl
+*.joblib
+*.h5
+*.keras
+*.pt
+*.pth
+
+# Large Datasets
+*.csv
+*.json
+# (Add exceptions if you specifically WANT to track small JSONs: !config.json)
+
+# --- Jupyter Notebook Checkpoints ---
+.ipynb_checkpoints

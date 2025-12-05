@@ -1,0 +1,35 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+    <head>
+        {% block head %}
+            <!-- Required meta tags -->
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{#            <link rel="icon" href="{% static 'greatkartsite/images/favicon.ico' %}">#}
+            <link rel="stylesheet" href="{% static 'css/output.css' %}">
+            {% block styles %}{% endblock %}
+
+            {% block title %}
+                <title>My Mind</title>
+            {% endblock %}
+
+        {% endblock %}
+    </head>
+    <body class="">
+{#        include the navbar/header here outside the block content because we need the header in all of the pages and we do not extend base.html in navbar page#}
+        {% if not hide_header %}
+            {% include 'partials/header.html' %}
+        {% endif %}
+        {% include 'includes/alerts.html' %}
+        <!-- Your page content -->
+        {% block content %}{% endblock %}
+
+        {% block scripts %}
+            <!-- Optional JavaScript -->
+
+        {% endblock %}
+    </body>
+</html>
+
+

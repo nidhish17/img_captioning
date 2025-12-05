@@ -1,0 +1,35 @@
+{% if messages %}
+    {% for message in messages %}
+        <div id="alert" class="absolute z-10 right-0 p-4 w-[25%]" role="alert">
+            <p
+                class="font-semibold p-3 rounded-md flex justify-between items-center
+                {% if message.tags == "success" %}bg-green-300 text-green-700 {% endif %}
+                {% if message.tags == 'error' %}   bg-red-300 text-red-700   {% endif %}
+                {% if message.tags == 'warning' %} bg-yellow-300 text-yellow-700 {% endif %}
+                {% if message.tags == 'info' %}    bg-blue-300 text-blue-700    {% endif %}
+                {% if message.tags == 'debug' %}   bg-gray-300 text-gray-700   {% endif %}
+            ">
+                {{ message }} <span id="alert-timer" class="font-mono"></span>
+            </p>
+        </div>
+    {% endfor %}
+{% endif %}
+
+
+<script>
+    const alertTimer = document.getElementById("alert-timer");
+    const alert = document.getElementById("alert");
+    let timeleft = 5;
+
+    alertTimer.textContent = `${timeleft}s`;
+    const updateTimerIntervalId = setInterval(() => {
+        timeleft--;
+        alertTimer.textContent = `${timeleft}s`;
+    }, 1000)
+
+    setTimeout(() => {
+        clearInterval(updateTimerIntervalId);
+        alert.remove();
+    }, 5000);
+</script>
+

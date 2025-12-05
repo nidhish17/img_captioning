@@ -1,0 +1,35 @@
+
+
+<header class="px-6 py-3 bg-white/10 backdrop-blur-lg">
+    <nav class="flex justify-between items-center">
+        <h3 class="font-medium text-xl flex items-center gap-x-2">{% lucide 'brain-circuit' size=20 %}<a href="{% url 'homepage' %}">MyMind</a></h3>
+
+    {% if request.user.is_authenticated %}
+        <ul class="flex items-center justify-center gap-x-4">
+            <li class="">
+                <a href="{% url 'gallery' %}"
+                    class="font-semibold text-lg hover:text-blue-500 transition duration-200 capitalize {% if request.resolver_match.url_name == 'gallery' %}text-blue-500 {%endif %}">
+                {{ user.first_name }}'s Gallery
+                </a>
+            </li>
+            <li class="">
+                <a href="{% url 'upload-image' %}"
+                   class="font-semibold text-lg hover:text-blue-500 transition duration-200 capitalize {% if request.resolver_match.url_name == 'upload-image' %}text-blue-500 {%endif %}">
+                    Upload
+                </a>
+            </li>
+        </ul>
+    {% endif %}
+
+        {% if request.user.is_authenticated %}
+                    <a href="{% url 'signout' %}"
+                            class="px-4 py-2 font-semibold rounded flex items-center justify-center gap-x-0.5 bg-blue-500 hover:bg-blue-600 transition">
+            Logout {% lucide 'arrow-up-right' size=16 %}</a>
+        {% else %}
+        <a href="{% url 'signin' %}"
+                            class="px-4 py-2 font-semibold rounded flex items-center justify-center gap-x-0.5 bg-blue-500 hover:bg-blue-600 transition">
+            Login {% lucide 'arrow-down-left' size=16 %}</a>
+        {% endif %}
+    </nav>
+</header>
+
