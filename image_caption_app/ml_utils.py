@@ -2,6 +2,8 @@ import torch
 import spacy
 from transformers import BlipProcessor,BlipForConditionalGeneration
 from PIL import Image
+import nltk
+nltk.download("stopwords")
 from nltk.corpus import stopwords
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
