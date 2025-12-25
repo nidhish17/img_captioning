@@ -1,35 +1,62 @@
-
-
-<header class="px-6 py-3 bg-white/10 backdrop-blur-lg">
+<header class="px-6 py-3 bg-white shadow-md dark:bg-white/10 dark:shadow-none backdrop-blur-lg">
     <nav class="flex justify-between items-center">
-        <h3 class="font-medium text-xl flex items-center gap-x-2">{% lucide 'brain-circuit' size=20 %}<a href="{% url 'homepage' %}">MyMind</a></h3>
+        <h3 class="font-medium text-xl flex items-center gap-x-2">{% lucide 'brain-circuit' size=20 %}<a
+                href="{% url 'homepage' %}">MyMind</a></h3>
 
-    {% if request.user.is_authenticated %}
+        {% if request.user.is_authenticated %}
         <ul class="flex items-center justify-center gap-x-4">
             <li class="">
                 <a href="{% url 'gallery' %}"
                     class="font-semibold text-lg hover:text-blue-500 transition duration-200 capitalize {% if request.resolver_match.url_name == 'gallery' %}text-blue-500 {%endif %}">
-                {{ user.first_name }}'s Gallery
+                    {{ user.first_name }}'s Gallery
                 </a>
             </li>
             <li class="">
                 <a href="{% url 'upload-image' %}"
-                   class="font-semibold text-lg hover:text-blue-500 transition duration-200 capitalize {% if request.resolver_match.url_name == 'upload-image' %}text-blue-500 {%endif %}">
+                    class="font-semibold text-lg hover:text-blue-500 transition duration-200 capitalize {% if request.resolver_match.url_name == 'upload-image' %}text-blue-500 {%endif %}">
                     Upload
                 </a>
             </li>
+            <li class="">
+                <a href="{% url 'upload-video' %}"
+                    class="font-semibold text-lg hover:text-blue-500 transition duration-200 capitalize {% if request.resolver_match.url_name == 'upload-video' %}text-blue-500 {%endif %}">
+                    Upload Video
+                </a>
+            </li>
         </ul>
-    {% endif %}
+        {% endif %}
 
         {% if request.user.is_authenticated %}
-                    <a href="{% url 'signout' %}"
-                            class="px-4 py-2 font-semibold rounded flex items-center justify-center gap-x-0.5 bg-blue-500 hover:bg-blue-600 transition">
+        <a href="{% url 'signout' %}"
+            class="px-4 py-2 font-semibold rounded flex items-center justify-center gap-x-0.5 bg-blue-500 hover:bg-blue-600 transition text-white">
             Logout {% lucide 'arrow-up-right' size=16 %}</a>
         {% else %}
         <a href="{% url 'signin' %}"
-                            class="px-4 py-2 font-semibold rounded flex items-center justify-center gap-x-0.5 bg-blue-500 hover:bg-blue-600 transition">
+            class="px-4 py-2 font-semibold rounded flex items-center justify-center gap-x-0.5 bg-blue-500 hover:bg-blue-600 transition text-white">
             Login {% lucide 'arrow-down-left' size=16 %}</a>
         {% endif %}
+        <button id="theme-toggle"
+            class="ml-4 p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            aria-label="Toggle Dark Mode">
+            <span class="hidden dark:inline-block text-yellow-400">
+                {% lucide 'sun' size=20 %}
+            </span>
+            <span class="inline-block dark:hidden text-gray-800">
+                {% lucide 'moon' size=20 %}
+            </span>
+        </button>
+
+        <script>
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            themeToggleBtn.addEventListener('click', function () {
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.theme = 'light';
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.theme = 'dark';
+                }
+            });
+        </script>
     </nav>
 </header>
-

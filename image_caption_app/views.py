@@ -25,7 +25,7 @@ def gallery(request):
         captioned_images = CaptionedImage.objects.filter(user=request.user)
     else:
         escaped = re.escape(search_keyword)
-        pattern = rf"\b{escaped}\b"
+        pattern = rf"\b{escaped}\b".strip()
         captioned_images = CaptionedImage.objects.filter(Q(caption__iregex=pattern) | Q(tags__name__iregex=pattern), user=request.user).distinct().order_by("uploaded_at")
     paginator = Paginator(captioned_images, 9)
     page = request.GET.get("page", 1)
@@ -79,3 +79,13 @@ def upload_image(request):
 
 
 
+
+@login_required(login_url="signin")
+def upload_video(request):
+    if request.method == "POST":
+        # Placeholder for video processing logic
+        messages.info(request, "Video upload functionality coming soon!")
+        return redirect("homepage")
+
+    context = {}
+    return render(request, "img_caption/upload_video.html", context=context)

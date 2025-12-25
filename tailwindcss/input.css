@@ -5,17 +5,22 @@
 
 @source inline('bg-{green,red,amber,rose,pink,violet,lime,orange,yellow,purple,indigo,gray,stone,sky}-{400}');
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
     --color-secondary: var(--color-stone-400);
 }
 
 @layer base {
     body {
-        @apply bg-neutral-950 text-white relative;
+        /* Default to light mode (white bg, black text), override for dark mode */
+        @apply bg-white text-black relative;
+        @apply dark:bg-neutral-950 dark:text-white;
     }
 
     main {
         @apply max-w-screen-xl mx-auto p-4 sm:p-8 md:p-12 lg:p-16;
+
         ::-webkit-scrollbar {
             display: none;
         }
@@ -28,6 +33,6 @@
 
 @layer components {
     .form-control {
-        @apply outline-none px-4 py-1.5 rounded ring-1 focus:ring-purple-900 ring-secondary bg-stone-900;
+        @apply outline-none px-4 py-1.5 rounded ring-1 focus:ring-purple-900 ring-secondary bg-white dark:bg-stone-900;
     }
 }

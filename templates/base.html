@@ -15,6 +15,14 @@
             {% endblock %}
 
         {% endblock %}
+        <script>
+            // Check for saved theme preference or use system preference
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        </script>
     </head>
     <body class="">
 {#        include the navbar/header here outside the block content because we need the header in all of the pages and we do not extend base.html in navbar page#}

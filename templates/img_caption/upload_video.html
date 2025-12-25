@@ -9,16 +9,16 @@
         <!-- Header Section -->
         <div class="text-center space-y-4">
             <h1 class="text-4xl font-bold text-neutral-900 dark:text-white">
-                Image Analysis Studio
+                Video Analysis Studio
             </h1>
             <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto">
-                Upload your images for advanced AI processing. We'll generate captions, detect objects, and index
+                Upload your videos for advanced AI processing. We'll generate captions, extract keyframes, and index
                 content for easy retrieval.
             </p>
         </div>
 
         <!-- Upload Area -->
-        <div id="upload-image-container"
+        <div id="upload-video-container"
             class="relative group border-2 border-dashed rounded-2xl p-16 transition-all duration-300
                     bg-white border-neutral-300 hover:border-blue-500 hover:bg-blue-50/50
                     dark:bg-neutral-800 dark:border-neutral-700 dark:hover:border-blue-500 dark:hover:bg-neutral-800/80">
@@ -27,13 +27,13 @@
                 <!-- Icon -->
                 <div
                     class="p-6 rounded-full bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 group-hover:scale-110 transition-transform duration-300">
-                    {% lucide 'image' size=48 %}
+                    {% lucide 'film' size=48 %}
                 </div>
 
                 <!-- Text Instructions -->
                 <div class="space-y-2">
                     <h2 class="text-2xl font-semibold text-neutral-800 dark:text-neutral-200">
-                        Drop your images here
+                        Drop your video here
                     </h2>
                     <p class="text-neutral-500 dark:text-neutral-400">
                         or click to browse files
@@ -43,21 +43,21 @@
                 <!-- Supported Formats -->
                 <div
                     class="flex gap-3 text-xs font-mono text-neutral-400 dark:text-neutral-500 uppercase tracking-wider">
-                    <span class="px-2 py-1 rounded bg-neutral-100 dark:bg-neutral-900">JPG</span>
-                    <span class="px-2 py-1 rounded bg-neutral-100 dark:bg-neutral-900">PNG</span>
-                    <span class="px-2 py-1 rounded bg-neutral-100 dark:bg-neutral-900">WEBP</span>
+                    <span class="px-2 py-1 rounded bg-neutral-100 dark:bg-neutral-900">MP4</span>
+                    <span class="px-2 py-1 rounded bg-neutral-100 dark:bg-neutral-900">MOV</span>
+                    <span class="px-2 py-1 rounded bg-neutral-100 dark:bg-neutral-900">AVI</span>
                 </div>
 
                 <!-- Hidden Form -->
-                <form action="{% url 'upload-image' %}" method="post" enctype="multipart/form-data" id="upload-form">
+                <form action="{% url 'upload-video' %}" method="post" enctype="multipart/form-data" id="upload-form">
                     {% csrf_token %}
-                    <input type="file" name="images" id="image-upload-input" accept="image/*" multiple hidden>
+                    <input type="file" name="videos" id="video-upload-input" accept="video/*" multiple hidden>
                 </form>
 
                 <!-- Button -->
-                <button id="image-upload-btn"
+                <button id="video-upload-btn"
                     class="mt-4 px-8 py-3 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-medium shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 transition-all active:scale-95">
-                    Select Image Files
+                    Select Video Files
                 </button>
             </div>
 
@@ -71,20 +71,19 @@
                             class="absolute inset-0 border-4 border-blue-600 rounded-full border-t-transparent animate-spin">
                         </div>
                     </div>
-                    <h3 class="font-bold text-xl text-neutral-900 dark:text-white animate-pulse">Processing Images...
+                    <h3 class="font-bold text-xl text-neutral-900 dark:text-white animate-pulse">Processing Video...
                     </h3>
-                    <p class="text-sm text-neutral-500">Generating captions and tags</p>
+                    <p class="text-sm text-neutral-500">This might take a moment depending on file size</p>
                 </div>
             </div>
         </div>
-
     </div>
 </main>
 
 <script>
-    const uploadInput = document.getElementById("image-upload-input");
-    const uploadBtn = document.getElementById("image-upload-btn");
-    const uploadContainer = document.getElementById("upload-image-container");
+    const uploadInput = document.getElementById("video-upload-input");
+    const uploadBtn = document.getElementById("video-upload-btn");
+    const uploadContainer = document.getElementById("upload-video-container");
     const processingOverlay = document.getElementById("upload-processing");
     const form = document.getElementById("upload-form");
 
@@ -123,6 +122,11 @@
 
     function submitForm() {
         processingOverlay.classList.remove("hidden");
+        // Simulate a small delay or just submit
+        // form.submit(); 
+        // For now, since backend logic isn't fully there for videos, we might just want to show the UI state
+        // But the user asked for static template, so the form submission might fail if the view doesn't handle it.
+        // I will submit it because I'm adding the view next.
         form.submit();
     }
 </script>

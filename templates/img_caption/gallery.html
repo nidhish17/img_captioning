@@ -14,66 +14,97 @@
             <div class="flex gap-x-4 text-lg">
                 <form action="{% url 'gallery' %}" class="flex basis-full relative">
                     {# search by caption or tags #}
-                    <input type="text" class="form-control w-full py-3" placeholder="Search by caption or tag..." name="keyword" value="{% if search_keyword %} {{ search_keyword }} {% endif %}">
-                    <button type="submit" class="bg-blue-500 hover:bg-blue-600 absolute right-2 top-1/2 -translate-y-1/2 p-2">{% lucide 'search' %}</button>
+                    <input type="text" class="form-control w-full py-3" placeholder="Search by caption or tag..."
+                           name="keyword" value="{% if search_keyword %}{{ search_keyword }}{% endif %}">
+                    <button type="submit"
+                            class="bg-blue-500 hover:bg-blue-600 absolute right-2 top-1/2 -translate-y-1/2 p-2 text-white">
+                        {% lucide 'search' %}
+                    </button>
                 </form>
 
                 {# filter button #}
-                <button class="px-4 py-2 rounded flex gap-x-0.5 items-center justify-center font-semibold ring ring-blue-500 bg-blue-500 hover:bg-blue-600">
+                <button
+                        class="px-4 py-2 rounded flex gap-x-0.5 items-center justify-center font-semibold ring ring-blue-500 bg-blue-500 hover:bg-blue-600 text-white">
                     Sort {% lucide 'chevron-down' size=20 %}</button>
             </div>
             {% if not images %}
                 <h2 class="font-semibold text-lg">No images found for the keyword: "{{ search_keyword }}"</h2>
-            {# Image gallery #}
+                {# Image gallery #}
             {% else %}
                 {% if images and search_keyword %}
-                    <h2 class="font-semibold text-lg">{{ found_images_len }} image{% if found_images_len > 1 %}s{% endif %} found with the keyword: "{{ search_keyword }}"</h2>
+                    <h2 class="font-semibold text-lg">{{ found_images_len }} image{% if found_images_len > 1 %}
+                        s{% endif %} found
+                        with the keyword: "{{ search_keyword }}"</h2>
                 {% endif %}
                 <div class="grid grid-cols-3 gap-5">
                     {% for c_img in images %}
                     {# image card #}
-                        <div class="p-5 ring-2 ring-neutral-800 rounded-lg space-y-4 relative">
-                            <img src="{{ c_img.image.url }}" alt="" class="w-full h-80 object-cover rounded-lg" />
-                             {# Todo: editable(to be implemented if time persists) caption #}
-                            <div class="space-y-4">
-                                <h4 class="font-semibold text-lg">Caption</h4>
-                                <p class="p-4 rounded bg-neutral-800/60 w-full max-h-32 overflow-y-scroll">{{ c_img.caption }}</p>
+                    <div class="w-full max-w-md bg-white dark:bg-neutral-900 rounded-xl shadow-lg border border-gray-200 dark:border-neutral-800 overflow-hidden">
+                        {# Image Section #}
+                        <div class="relative group">
+                            <img
+                                src="{{ c_img.image.url }}"
+                                alt="{{ c_img.caption|truncatewords:10 }}"
+                                class="w-full h-64 object-cover"
+                            />
+                            <a
+                                href="{% url 'delete-image' img_id=c_img.id %}"
+                                class="absolute top-4 right-4 bg-white hover:bg-red-50 text-red-500 rounded-lg p-2 shadow-md transition-all duration-200 hover:shadow-lg hover:scale-105"
+                                aria-label="Delete card"
+                            >
+                                {% lucide 'trash-2' class='w-5 h-5' %}
+                            </a>
+                        </div>
 
-                                <h4 class="font-semibold text-lg">Tags</h4>
-                                <div class="flex flex-wrap gap-3 text-sm">
-                                    {% for img_tag in c_img.tags.all %}
-                                    <p class="rounded-full px-4 py-1 {% rand_tw_clr %}">{{ img_tag.name }}</p>
-                                    {% endfor %}
-                                </div>
-                                <div class="absolute top-6 right-6">
-                                    <a href="{% url 'delete-image' img_id=c_img.id %}" class="text-red-500 border-white inline-block">{% lucide 'trash-2' %}</a>
-                                </div>
+                        {# Caption Section #}
+                        <div class="p-6 bg-gray-50 dark:bg-neutral-800/60 border-b border-gray-200 dark:border-neutral-800">
+                            <h3 class="text-gray-900 dark:text-white mb-2 font-semibold">Caption</h3>
+                            <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+                                {{ c_img.caption }}
+                            </p>
+                        </div>
+
+                        {# Tags Section #}
+                        <div class="p-6 bg-white dark:bg-neutral-900">
+                            <h3 class="text-gray-900 dark:text-white mb-3 font-semibold">Tags</h3>
+                            <div class="flex flex-wrap gap-2">
+                                {% for tag in c_img.tags.all %}
+                                <span class="px-3 py-1.5 rounded-full text-sm {% rand_tw_clr %} transition-all duration-200 hover:shadow-md hover:-translate-y-0.5">
+                                    {{ tag.name }}
+                                </span>
+                                {% endfor %}
                             </div>
                         </div>
-                    {% endfor %}
+                    </div>
+                {% endfor %}
                 </div>
             {% endif %}
 
-        {# pagination #}
-        {% if images.has_other_pages %}
-            <div class="flex gap-x-5 items-center justify-center">
-            {% if images.has_previous %}
-                <a href="?page={{ images.previous_page_number }}" class="px-4 py-2 rounded bg-rose-500 hover:bg-rose-600">Previous</a>
-            {% else %}
-                <button disabled class="px-4 py-2 rounded bg-neutral-400">Previous</button>
-            {% endif %}
-                <div class="flex gap-x-3">
-                    {% for i in images.paginator.page_range %}
-                    <a href="?page={{ i }}" class="rounded-full size-8 ring ring-rose-500 hover:bg-rose-500 {% if current_page == i %}bg-rose-500{% endif %} flex items-center justify-center transition-all duration-200">{{ i }}</a>
-                    {% endfor %}
+            {# pagination #}
+            {% if images.has_other_pages %}
+                <div class="flex gap-x-5 items-center justify-center">
+                    {% if images.has_previous %}
+                        <a href="?page={{ images.previous_page_number }}"
+                           class="px-4 py-2 rounded bg-rose-500 hover:bg-rose-600">Previous</a>
+                    {% else %}
+                        <button disabled class="px-4 py-2 rounded bg-neutral-400">Previous</button>
+                    {% endif %}
+                    <div class="flex gap-x-3">
+                        {% for i in images.paginator.page_range %}
+                            <a href="?page={{ i }}"
+                               class="rounded-full size-8 ring ring-rose-500 hover:bg-rose-500 {% if current_page == i %}bg-rose-500{% endif %} flex items-center justify-center transition-all duration-200">
+                                {{ i }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                    {% if images.has_next %}
+                        <a href="?page={{ images.next_page_number }}"
+                           class="px-4 py-2 rounded bg-blue-500 hover:bg-blue-600">Next</a>
+                    {% else %}
+                        <button disabled class="px-4 py-2 rounded bg-neutral-400">Next</button>
+                    {% endif %}
                 </div>
-            {% if images.has_next %}
-                <a href="?page={{ images.next_page_number }}" class="px-4 py-2 rounded bg-blue-500 hover:bg-blue-600">Next</a>
-            {% else %}
-                <button disabled class="px-4 py-2 rounded bg-neutral-400">Next</button>
             {% endif %}
-            </div>
-        {% endif %}
         </div>
 
 

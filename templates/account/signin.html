@@ -1,48 +1,51 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <main class="max-w-screen-xl mx-auto p-4 sm:p-8 md:p-12 lg:p-16 grid place-items-center justify-items-center h-lvh">
-        <div class="p-12 bg-neutral-900 rounded-lg flex flex-col gap-y-2">
-            <div class="flex flex-col gap-y-10">
-                <div class="self-center rounded-full p-4 bg-secondary/70">{% lucide 'brain-circuit' size=35 %}</div>
+<main class="max-w-screen-xl mx-auto p-4 sm:p-8 md:p-12 lg:p-16 grid place-items-center justify-items-center h-lvh">
+    <div
+        class="p-12 bg-white shadow-xl ring-1 ring-gray-200 dark:bg-neutral-900 dark:ring-0 rounded-lg flex flex-col gap-y-2">
+        <div class="flex flex-col gap-y-10">
+            <div class="self-center rounded-full p-4 bg-secondary/70">{% lucide 'brain-circuit' size=35 %}</div>
 
-                <div class="space-y-2">
-                    <h3 class="font-bold text-2xl uppercase">Image caption generator</h3>
-                    <p class="text-sm text-secondary text-center">AI-powered image captioning made easy</p>
+            <div class="space-y-2">
+                <h3 class="font-bold text-2xl uppercase">Image caption generator</h3>
+                <p class="text-sm text-secondary text-center">AI-powered image captioning made easy</p>
+            </div>
+
+            <form action="{% url 'signin' %}" method="post" class="flex flex-col gap-y-6">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ next_url }}">
+                <div class="flex flex-col gap-y-2">
+                    <label for="email" class="text-secondary">Email Address <span class="text-red-500">*</span></label>
+                    <input type="email" name="email" id="email" placeholder="example@example.com" required
+                        class="outline-none px-3 py-1.5 rounded ring-1 focus:ring-purple-900 ring-secondary dark:bg-stone-900" />
                 </div>
 
-                <form action="{% url 'signin' %}" method="post" class="flex flex-col gap-y-6">
-                    {% csrf_token %}
-                    <input type="hidden" name="next" value="{{ next_url }}">
-                    <div class="flex flex-col gap-y-2">
-                        <label for="email" class="text-secondary">Email Address <span class="text-red-500">*</span></label>
-                        <input
-                                type="email" name="email" id="email" placeholder="example@example.com" required
-                                class="outline-none px-3 py-1.5 rounded ring-1 focus:ring-purple-900 ring-secondary bg-stone-900"
-                        />
-                    </div>
+                <div class="flex flex-col gap-y-2">
+                    <label for="password" class="text-secondary">Password <span class="text-red-500">*</span></label>
+                    <input type="password" name="password" id="password" placeholder="Your Password" required
+                        class="outline-none px-3 py-1.5 rounded ring-1 focus:ring-purple-900 ring-secondary dark:bg-stone-900" />
+                </div>
 
-                    <div class="flex flex-col gap-y-2">
-                        <label for="password" class="text-secondary">Password <span class="text-red-500">*</span></label>
-                        <input
-                                type="password" name="password" id="password" placeholder="Your Password" required
-                                class="outline-none px-3 py-1.5 rounded ring-1 focus:ring-purple-900 ring-secondary bg-stone-900"
-                        />
-                    </div>
-
-                    <button class="px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 transition duration-200 cursor-pointer" type="submit">Login</button>
-                </form>
-            </div>
-
-            <a href="#" class="underline decoration-indigo-800 underline-offset-1 text-indigo-800 hover:text-indigo-800/80 self-end">Forgot Password?</a>
-
-            <hr class="mt-2 text-secondary" />
-
-            <div class="flex justify-center items-center gap-x-3">
-                <p class="text-secondary text-sm">Don't have an account?</p>
-                <a href="{% url 'signup' %}" class="underline decoration-indigo-800 underline-offset-1 text-indigo-800 hover:text-indigo-800/80 self-end font-semibold capitalize">create one now</a>
-            </div>
-
+                <button
+                    class="px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 transition duration-200 cursor-pointer"
+                    type="submit">Login</button>
+            </form>
         </div>
-    </main>
+
+        <a href="#"
+            class="underline decoration-indigo-800 underline-offset-1 text-indigo-800 hover:text-indigo-800/80 self-end">Forgot
+            Password?</a>
+
+        <hr class="mt-2 text-secondary" />
+
+        <div class="flex justify-center items-center gap-x-3">
+            <p class="text-secondary text-sm">Don't have an account?</p>
+            <a href="{% url 'signup' %}"
+                class="underline decoration-indigo-800 underline-offset-1 text-indigo-800 hover:text-indigo-800/80 self-end font-semibold capitalize">create
+                one now</a>
+        </div>
+
+    </div>
+</main>
 {% endblock %}

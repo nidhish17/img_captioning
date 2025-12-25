@@ -6,6 +6,7 @@ urlpatterns = [
     path("", views.homepage, name="homepage"),
     path("gallery/", views.gallery, name="gallery"),
     path("upload/", views.upload_image, name="upload-image"),
+    path("upload-video/", views.upload_video, name="upload-video"),
     path("del/<int:img_id>", views.delete_img_frm_gallery, name="delete-image"),
 ]
 
