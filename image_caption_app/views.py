@@ -80,12 +80,3 @@ def upload_image(request):
 
 
 
-@login_required(login_url="signin")
-def upload_video(request):
-    if request.method == "POST":
-        # Placeholder for video processing logic
-        messages.info(request, "Video upload functionality coming soon!")
-        return redirect("homepage")
-
-    context = {}
-    return render(request, "img_caption/upload_video.html", context=context)
